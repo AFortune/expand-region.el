@@ -108,6 +108,49 @@
   (forward-list)
   (exchange-point-and-mark))
 
+;;(untrace-function 'er/mark-js-if)
+
+(defun er/mark-js-for ()
+  "Mark the current for-loop."
+  (interactive)
+  (condition-case nil
+      (forward-char 2)
+    (error nil))
+  (word-search-backward "for")
+  (while (or (er--point-inside-string-p)
+             (er--point-is-in-comment-p))
+    (word-search-backward "for"))
+  (set-mark (point))
+  (while (not (looking-at "("))
+    (forward-char))
+  (forward-list)
+  (while (not (looking-at "{"))
+    (forward-char))
+  (forward-list)
+  (exchange-point-and-mark))
+
+(defun er/mark-js-while ()
+  "Mark the current while-loop."
+  (interactive)
+  (condition-case nil
+      (forward-char 2)
+    (error nil))
+  (word-search-backward "while")
+  (while (or (er--point-inside-string-p)
+             (er--point-is-in-comment-p))
+    (word-search-backward "while"))
+  (set-mark (point))
+  (while (not (looking-at "("))
+    (forward-char))
+  (forward-list)
+  (while (not (looking-at "{"))
+    (forward-char))
+  (forward-list)
+  (exchange-point-and-mark))
+
+(untrace-function 'er/mark-js-for)
+
+
 (defun er/mark-js-object-property-value ()
   "Mark the current object property value, ie. from : to , or }"
   (interactive)
@@ -174,6 +217,8 @@ If point is inside the value, that will be marked first anyway."
                                                     er/mark-js-object-property-value
                                                     er/mark-js-object-property
                                                     er/mark-js-if
+                                                    er/mark-js-while
+                                                    er/mark-js-for
                                                     er/mark-js-inner-return
                                                     er/mark-js-outer-return
                                                     er/mark-js-call))))
