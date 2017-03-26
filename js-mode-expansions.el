@@ -26,6 +26,8 @@
 ;;    er/mark-js-object-property-value
 ;;    er/mark-js-object-property
 ;;    er/mark-js-if
+;;    er/mark-js-for
+;;    er/mark-js-while
 ;;    er/mark-js-inner-return
 ;;    er/mark-js-outer-return
 ;;
@@ -148,7 +150,7 @@
   (forward-list)
   (exchange-point-and-mark))
 
-(untrace-function 'er/mark-js-for)
+;;(untrace-function 'er/mark-js-for)
 
 
 (defun er/mark-js-object-property-value ()
